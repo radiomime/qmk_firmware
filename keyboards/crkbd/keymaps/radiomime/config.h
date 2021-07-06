@@ -29,7 +29,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 /* #define EE_HANDS */
 
 /* allow media controls */
-#define EXTRAKEY_ENABLE
+/* #define EXTRAKEY_ENABLE */
 
 #define USE_SERIAL_PD2
 
