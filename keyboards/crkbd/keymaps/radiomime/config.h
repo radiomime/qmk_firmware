@@ -33,6 +33,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #define USE_SERIAL_PD2
 
+// -----< oneshot configs >----- //
+#define ONESHOT_TAP_TOGGLE 3  /* Tapping this number of times holds the key until tapped once again. */
+#define ONESHOT_TIMEOUT 60000  /* Time (in ms) before the one shot key is released */
+
+
 // -----< home row mods >----- //
 
 // Configure the global tapping term (default: 200ms)
@@ -41,9 +46,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // Prevent normal rollover on alphas from accidentally triggering mods.
 #define IGNORE_MOD_TAP_INTERRUPT
 
-// Enable rapid switch from tap to hold, disables double tap hold auto-repeat. (can be hard for qwerty VIM users)
-#define TAPPING_FORCE_HOLD
-
+// Enable rapid switch from tap to hold, disables double tap hold auto-repeat.
+// -> this can be hard for vim users
+// -> this is incompatable with ONESHOT_TAP_TOGGLE
+// -> https://precondition.github.io/home-row-mods#tapping-force-hold
+// #define TAPPING_FORCE_HOLD
 
 #ifdef RGBLIGHT_ENABLE
     #define RGBLIGHT_EFFECT_BREATHING

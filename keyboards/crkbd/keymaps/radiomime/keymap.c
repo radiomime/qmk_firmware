@@ -25,6 +25,7 @@ enum layers {
   _NUM,
   _SNM,
   _SYM,
+  _GAME
 
     // _NAV,
     // _RSYM,
@@ -38,31 +39,38 @@ enum layers {
 #define LYR_NUM MO(_NUM)
 #define LYR_SNM MO(_SNM)
 #define LYR_SYM MO(_SYM)
+#define LYR_GAME TG(_GAME)
 
 // -----< home row mods >----- //
+/*
+ * These are currently functioning by doing mod-tap keys. Alternatively, I could do one shot keys.
+ */
 
 // Left-hand home row mods
-#define HR_A LGUI_T(KC_A)
+#define HR_A LSFT_T(KC_A)
 #define HR_S LALT_T(KC_S)
-#define HR_D LSFT_T(KC_D)
+#define HR_D LGUI_T(KC_D)
 #define HR_F LCTL_T(KC_F)
 
 // Right-hand home row mods
 #define HR_J RCTL_T(KC_J)
-#define HR_K RSFT_T(KC_K)
+#define HR_K RGUI_T(KC_K)
 #define HR_L LALT_T(KC_L)
-#define HR_SCLN RGUI_T(KC_SCLN)
+#define HR_SCLN RSFT_T(KC_SCLN)
+
+// -----< one shot keys >----- //
+#define OSH_SFT OSM(MOD_RSFT)
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [_QWERTY] = LAYOUT_split_3x6_3(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
        KC_TAB,    KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                         KC_Y,    KC_U,    KC_I,    KC_O,   KC_P,  KC_RALT,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      KC_LCTL,    HR_A,    HR_S,    HR_D,    HR_F,    KC_G,                         KC_H,    HR_J,    HR_K,    HR_L, HR_SCLN, KC_QUOT,
+       KC_TAB,    HR_A,    HR_S,    HR_D,    HR_F,    KC_G,                         KC_H,    HR_J,    HR_K,    HR_L, HR_SCLN, KC_QUOT,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      KC_LSFT,    KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                         KC_N,    KC_M, KC_COMM,  KC_DOT, KC_SLSH, KC_RSFT,
+      XXXXXXX,    KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                         KC_N,    KC_M, KC_COMM,  KC_DOT, KC_SLSH, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                          KC_LGUI,  KC_SPC, LYR_NUM,    LYR_SNM, KC_BSPC, KC_ENT
+                                          OSH_SFT,  KC_SPC, LYR_NUM,    LYR_SNM, KC_BSPC, KC_ENT
                                       //`--------------------------'  `--------------------------'
 
   ),
@@ -75,7 +83,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       KC_LSFT, XXXXXXX, KC_MPRV, KC_MPLY, KC_MNXT, XXXXXXX,                      XXXXXXX, KC_PGDN, KC_PGUP, KC_VOLD, KC_VOLU, KC_RSFT,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                          KC_LGUI,  KC_SPC, _______,    LYR_SYM, KC_BSPC, KC_ENT
+                                          OSH_SFT,  KC_SPC, _______,    LYR_SYM, KC_BSPC, KC_ENT
                                       //`--------------------------'  `--------------------------'
   ),
 
@@ -87,7 +95,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       KC_LSFT, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, KC_LCBR, KC_RCBR, KC_TILD,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                          KC_LGUI,  KC_SPC, LYR_SYM,    _______, KC_BSPC, KC_ENT
+                                          OSH_SFT,  KC_SPC, LYR_SYM,    _______, KC_BSPC, KC_ENT
                                       //`--------------------------'  `--------------------------'
   ),
 
@@ -95,13 +103,25 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
         KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,                        KC_F7,   KC_F8,   KC_F9,  KC_F10,  KC_F11,  KC_F12,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      KC_LCTL, KC_BSLS, KC_MINS,  KC_EQL, KC_PLUS, XXXXXXX,                      XXXXXXX, KC_PIPE, KC_UNDS, KC_LBRC, KC_RBRC,  KC_ESC,
+      KC_LCTL, KC_BSLS, KC_MINS,  KC_EQL, KC_PLUS, XXXXXXX,                     LYR_GAME, KC_PIPE, KC_UNDS, KC_LBRC, KC_RBRC,  KC_ESC,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       XXXXXXX, RGB_MOD, RGB_HUD, RGB_SAD, RGB_VAD, XXXXXXX,                      XXXXXXX, RGB_TOG, RGB_HUI, RGB_SAI, RGB_VAI, KC_RSFT,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                          KC_LGUI,  KC_SPC, _______,    _______, KC_BSPC, KC_ENT
+                                          OSH_SFT,  KC_SPC, _______,    _______, KC_BSPC, KC_ENT
                                       //`--------------------------'  `--------------------------'
-  )
+  ),
+
+  [_GAME] = LAYOUT_split_3x6_3(
+  //,-----------------------------------------------------.                    ,-----------------------------------------------------.
+       KC_TAB,    KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                         KC_Y,    KC_U,    KC_I,    KC_O,   KC_P, LYR_GAME,
+  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
+      KC_LCTL,    KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                         KC_H,    KC_J,    KC_K,    KC_L, KC_SCLN, KC_QUOT,
+  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
+      KC_LSFT,    KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                         KC_N,    KC_M, KC_COMM,  KC_DOT, KC_SLSH, KC_RSFT,
+  //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
+                                          OSH_SFT,  KC_SPC, LYR_NUM,    LYR_SNM, KC_BSPC, KC_ENT
+                                      //`--------------------------'  `--------------------------'
+  ),
 };
 
 #ifdef OLED_DRIVER_ENABLE
