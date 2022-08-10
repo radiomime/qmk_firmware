@@ -41,7 +41,14 @@ enum layers {
 #define LYR_SYM MO(_SYM)
 #define LYR_GAME TG(_GAME)
 
-// -----< home row mods >----- //
+// -----< one_shot_keys >----- //
+#define OSM_LSFT OSM(MOD_LSFT)
+#define OSM_LGUI OSM(MOD_LGUI)
+#define OSM_LCTL OSM(MOD_LCTL)
+#define OSM_LALT OSM(MOD_LALT)
+
+
+// -----< mod_tap_keys >----- //
 /*
  * These are currently functioning by doing mod-tap keys. Alternatively, I could do one shot keys.
  */
@@ -58,32 +65,32 @@ enum layers {
 #define HR_L LALT_T(KC_L)
 #define HR_SCLN RSFT_T(KC_SCLN)
 
-// -----< one shot keys >----- //
-#define OSH_SFT OSM(MOD_RSFT)
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [_QWERTY] = LAYOUT_split_3x6_3(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
        KC_TAB,    KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                         KC_Y,    KC_U,    KC_I,    KC_O,   KC_P,  KC_RALT,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-       KC_TAB,    HR_A,    HR_S,    HR_D,    HR_F,    KC_G,                         KC_H,    HR_J,    HR_K,    HR_L, HR_SCLN, KC_QUOT,
+       KC_TAB,    KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                         KC_H,    KC_J,    KC_K,    KC_L, KC_SCLN, KC_QUOT,
+    // KC_TAB,    HR_A,    HR_S,    HR_D,    HR_F,    KC_G,                         KC_H,    HR_J,    HR_K,    HR_L, HR_SCLN, KC_QUOT,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       XXXXXXX,    KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                         KC_N,    KC_M, KC_COMM,  KC_DOT, KC_SLSH, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                          OSH_SFT,  KC_SPC, LYR_NUM,    LYR_SNM, KC_BSPC, KC_ENT
+                                         OSM_LSFT,  KC_SPC, LYR_NUM,    LYR_SNM, KC_BSPC, KC_ENT
                                       //`--------------------------'  `--------------------------'
 
   ),
 
   [_NUM] = LAYOUT_split_3x6_3(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-       KC_TAB, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      KC_LEFT, KC_DOWN,   KC_UP, KC_RGHT, XXXXXXX, KC_RALT,
+       KC_TAB, XXXXXXX, KC_MPRV, KC_MPLY, KC_MNXT, XXXXXXX,                      KC_LEFT, KC_DOWN,   KC_UP, KC_RGHT, XXXXXXX, KC_RALT,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      KC_LCTL,    KC_1,    KC_2,    KC_3,    KC_4,    KC_5,                         KC_6,    KC_7,    KC_8,    KC_9,    KC_0,  KC_ESC,
+      KC_LCTL,OSM_LSFT,OSM_LALT,OSM_LGUI,OSM_LCTL,    KC_5,                         KC_6,    KC_7,    KC_8,    KC_9,    KC_0,  KC_ESC,
+      // KC_LCTL,    KC_1,    KC_2,    KC_3,    KC_4,    KC_5,                         KC_6,    KC_7,    KC_8,    KC_9,    KC_0,  KC_ESC,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      KC_LSFT, XXXXXXX, KC_MPRV, KC_MPLY, KC_MNXT, XXXXXXX,                      XXXXXXX, KC_PGDN, KC_PGUP, KC_VOLD, KC_VOLU, KC_RSFT,
+      KC_LSFT, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, KC_PGDN, KC_PGUP, KC_VOLD, KC_VOLU, KC_RSFT,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                          OSH_SFT,  KC_SPC, _______,    LYR_SYM, KC_BSPC, KC_ENT
+                                         OSM_LSFT,  KC_SPC, _______,    LYR_SYM, KC_BSPC, KC_ENT
                                       //`--------------------------'  `--------------------------'
   ),
 
@@ -95,7 +102,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       KC_LSFT, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, KC_LCBR, KC_RCBR, KC_TILD,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                          OSH_SFT,  KC_SPC, LYR_SYM,    _______, KC_BSPC, KC_ENT
+                                         OSM_LSFT,  KC_SPC, LYR_SYM,    _______, KC_BSPC, KC_ENT
                                       //`--------------------------'  `--------------------------'
   ),
 
@@ -107,7 +114,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       XXXXXXX, RGB_MOD, RGB_HUD, RGB_SAD, RGB_VAD, XXXXXXX,                      XXXXXXX, RGB_TOG, RGB_HUI, RGB_SAI, RGB_VAI, KC_RSFT,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                          OSH_SFT,  KC_SPC, _______,    _______, KC_BSPC, KC_ENT
+                                         OSM_LSFT,  KC_SPC, _______,    _______, KC_BSPC, KC_ENT
                                       //`--------------------------'  `--------------------------'
   ),
 
@@ -119,7 +126,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       KC_LSFT,    KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                         KC_N,    KC_M, KC_COMM,  KC_DOT, KC_SLSH, KC_RSFT,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                          OSH_SFT,  KC_SPC, LYR_NUM,    LYR_SNM, KC_BSPC, KC_ENT
+                                         OSM_LSFT,  KC_SPC, LYR_NUM,    LYR_SNM, KC_BSPC, KC_ENT
                                       //`--------------------------'  `--------------------------'
   ),
 };
