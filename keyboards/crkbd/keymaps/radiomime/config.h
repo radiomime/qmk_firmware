@@ -35,16 +35,16 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 // -----< oneshot configs >----- //
 #define ONESHOT_TAP_TOGGLE 3  /* Tapping this number of times holds the key until tapped once again. */
-#define ONESHOT_TIMEOUT 5000  /* Time (in ms) before the one shot key is released */
+#define ONESHOT_TIMEOUT 60000  /* Time (in ms) before the one shot key is released */
 
 
 // -----< home row mods >----- //
 
 // Configure the global tapping term (default: 200ms)
-// #define TAPPING_TERM 200
+#define TAPPING_TERM 200
 
 // Prevent normal rollover on alphas from accidentally triggering mods.
-// #define IGNORE_MOD_TAP_INTERRUPT
+#define IGNORE_MOD_TAP_INTERRUPT
 
 // Enable rapid switch from tap to hold, disables double tap hold auto-repeat.
 // -> this can be hard for vim users
