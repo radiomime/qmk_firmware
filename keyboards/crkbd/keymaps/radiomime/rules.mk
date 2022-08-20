@@ -1,4 +1,6 @@
 OLED_DRIVER_ENABLE  = yes
+# OLED_DRIVER = SSD1306 # Selects the right driver
+# OLED_ENABLE = yes     # Enables the use of OLED displays
 
 # MCU name
 MCU = atmega32u4
@@ -40,3 +42,9 @@ LTO_ENABLE = yes
 LAYOUTS = split_3x5_3 split_3x6_3
 
 DEFAULT_FOLDER = crkbd/rev1
+
+
+# add sources
+# SRC += callum.c
+# SRC += oneshot.c
+# SRC += swapper.c
