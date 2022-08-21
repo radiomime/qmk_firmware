@@ -96,25 +96,24 @@ combo_t key_combos[COMBO_COUNT] = {
  */
 
 // Left-hand home row mods
-#define MT_A    LALT_T(KC_A)
-#define MT_S    LGUI_T(KC_S)
-#define MT_D    LCTL_T(KC_D)
-#define MT_F    LSFT_T(KC_F)
-
-// Right-hand home row mods
-#define MT_J    RSFT_T(KC_J)
-#define MT_K    RCTL_T(KC_K)
-#define MT_L    RGUI_T(KC_L)
-#define MT_SCLN LALT_T(KC_SCLN)
+// #define MT_A    LALT_T(KC_A)
+// #define MT_S    LGUI_T(KC_S)
+// #define MT_D    LCTL_T(KC_D)
+// #define MT_F    LSFT_T(KC_F)
+//
+// // Right-hand home row mods
+// #define MT_J    RSFT_T(KC_J)
+// #define MT_K    RCTL_T(KC_K)
+// #define MT_L    RGUI_T(KC_L)
+// #define MT_SCLN LALT_T(KC_SCLN)
 
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [_QWERTY] = LAYOUT_split_3x6_3(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-      OS_CTRL,    KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                         KC_Y,    KC_U,    KC_I,    KC_O,   KC_P,  KC_RALT,
+      XXXXXXX,    KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                         KC_Y,    KC_U,    KC_I,    KC_O,   KC_P,  KC_RALT,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-       // KC_TAB,    KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                         KC_H,    KC_J,    KC_K,    KC_L, KC_SCLN, KC_QUOT,
-       KC_TAB,    MT_A,    MT_S,    MT_D,    MT_F,    KC_G,                         KC_H,    MT_J,    MT_K,    MT_L, MT_SCLN, KC_QUOT,
+       KC_TAB,    KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                         KC_H,    KC_J,    KC_K,    KC_L, KC_SCLN, KC_QUOT,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       OS_SHFT,    KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                         KC_N,    KC_M, KC_COMM,  KC_DOT, KC_SLSH, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
@@ -123,25 +122,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
   ),
 
-  // here is a Test Of My Super Cool UKJKJJJLLL::jjjjkk
-  // Does This Work Pretty Good? I think I like it. YyyyyyyYyyyYYYyyyUiyiyfiiiIiiIiHOoOH{}here Here I Am Typing⇧OoHO
-
-  /*
-  How things were.
-  */
-
-  // QwertQWERtQwertPoiupoiuPoiupoiuPoiupoiuPOIUpoiu
-
-
   [_NUM] = LAYOUT_split_3x6_3(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-      OS_SHFT, OS_LALT, OS_LGUI, OS_LCTL, OS_LSFT, XXXXXXX,                      KC_LEFT, KC_DOWN,   KC_UP, KC_RGHT, XXXXXXX, KC_RALT,
+      XXXXXXX,    KC_1,    KC_2,    KC_3,    KC_4,    KC_5,                         KC_6,    KC_7,    KC_8,    KC_9,    KC_0, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       // KC_LCTL, OS_LSFT, OS_LALT, OS_LGUI, OS_LCTL,    KC_5,                         KC_6,    KC_7,    KC_8,    KC_9,    KC_0,  KC_ESC,
-      XXXXXXX,  OS_ALT,  OS_CMD, OS_CTRL, OS_SHFT,    KC_5,                         KC_6,    KC_7,    KC_8,    KC_9,    KC_0,  KC_ESC,
+       KC_TAB,  OS_ALT,  OS_CMD, OS_CTRL, OS_SHFT, XXXXXXX,                      KC_LEFT, KC_DOWN,   KC_UP, KC_RGHT, XXXXXXX,  KC_ESC,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      KC_LCTL,    KC_1,    KC_2,    KC_3,    KC_4,    KC_5,                         KC_6,    KC_7,    KC_8,    KC_9,    KC_0,  KC_ESC,
-      // XXXXXXX, XXXXXXX, KC_MPRV, KC_MPLY, KC_MNXT, OS_SHFT,                      XXXXXXX, KC_PGDN, KC_PGUP, KC_VOLD, KC_VOLU, XXXXXXX,
+      XXXXXXX, XXXXXXX, KC_MPRV, KC_MPLY, KC_MNXT, XXXXXXX,                      XXXXXXX, KC_PGDN, KC_PGUP, KC_VOLD, KC_VOLU, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
                                           OS_LSFT,  KC_SPC, _______,    LA_SYM,  KC_DEL, KC_ENT
                                       //`--------------------------'  `--------------------------'
@@ -149,12 +137,12 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
   [_SNM] = LAYOUT_split_3x6_3(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-      OS_SHFT, OS_LALT, OS_LGUI, OS_LCTL, OS_LSFT, KC_LCBR,                      KC_RCBR, OS_LALT, OS_LGUI, OS_LCTL, OS_LSFT,  KC_DEL,
-       // KC_TAB, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,  KC_DEL,
+      // OS_SHFT, OS_LALT, OS_LGUI, OS_LCTL, OS_LSFT, KC_LCBR,                      KC_RCBR, OS_LALT, OS_LGUI, OS_LCTL, OS_LSFT,  KC_DEL,
+      XXXXXXX, KC_EXLM,   KC_AT, KC_HASH,  KC_DLR, KC_PERC,                      KC_CIRC, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      KC_LCTL, KC_EXLM,   KC_AT, KC_HASH,  KC_DLR, KC_PERC,                      KC_CIRC, OS_LSFT, OS_LCTL, OS_LGUI, OS_LALT,  KC_GRV,
+       KC_TAB, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, OS_SHFT, OS_CTRL,  OS_CMD,  OS_ALT,  KC_GRV,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, OS_SHFT,                      XXXXXXX, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN, KC_TILD,
+      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_TILD,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
                                           OS_LSFT,  KC_SPC, LA_SYM,    _______, KC_BSPC, KC_ENT
                                       //`--------------------------'  `--------------------------'
@@ -218,6 +206,7 @@ bool is_oneshot_ignored_key(uint16_t keycode) {
         return false;
     }
 }
+
 
 oneshot_state os_shft_state = os_up_unqueued;
 oneshot_state os_ctrl_state = os_up_unqueued;
