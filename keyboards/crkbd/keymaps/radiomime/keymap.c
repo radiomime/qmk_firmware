@@ -176,9 +176,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 // TODO: update is_oneshot_cancel_key
 bool is_oneshot_cancel_key(uint16_t keycode) {
     switch (keycode) {
-    // case KC_Q:
-    // TODO: update these!
-    // case LA_:
     case LA_SYM:
     case LA_SNM:
     case LA_NUM:
