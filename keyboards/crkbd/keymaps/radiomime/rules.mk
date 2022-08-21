@@ -45,6 +45,11 @@ DEFAULT_FOLDER = crkbd/rev1
 
 
 # add sources
+SRC += oneshot.c
+
+# SRC += callum.c
+# SRC += oneshot.c
+# SRC += swapper.c
 # SRC += callum.c
 # SRC += oneshot.c
 # SRC += swapper.c

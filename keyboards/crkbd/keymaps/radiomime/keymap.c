@@ -19,10 +19,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include QMK_KEYBOARD_H
 #include <stdio.h>
 
+
+#include "oneshot.h"
+
 // -----< layers >----- //
 enum layers {
-  _QWERTY = 0,
-  // _QWERTY,
+  // _QWERTY = 0,
+  _QWERTY,
   _NUM,
   _SNM,
   _SYM,
@@ -37,10 +40,25 @@ enum layers {
     // _ALWAYS
 };
 
-#define LYR_NUM MO(_NUM)
-#define LYR_SNM MO(_SNM)
-#define LYR_SYM MO(_SYM)
-#define LYR_GAME TG(_GAME)
+enum keycodes {
+    // Custom oneshot mod implementation with no timers.
+    OS_SHFT = SAFE_RANGE,
+    OS_CTRL,
+    OS_ALT,
+    OS_CMD,
+
+    // SW_WIN,  // Switch to next window         (cmd-tab)
+    // SW_LANG, // Switch to next input language (ctl-spc)
+};
+
+#define LA_NUM MO(_NUM)
+#define LA_SNM MO(_SNM)
+#define LA_SYM MO(_SYM)
+#define LA_GAME TG(_GAME)
+// #define LYR_NUM MO(_NUM)
+// #define LYR_SNM MO(_SNM)
+// #define LYR_SYM MO(_SYM)
+// #define LYR_GAME TG(_GAME)
 
 // -----< one_shot_keys >----- //
 #define OS_LSFT OSM(MOD_LSFT)
@@ -70,41 +88,45 @@ enum layers {
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [_QWERTY] = LAYOUT_split_3x6_3(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-      XXXXXXX,    KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                         KC_Y,    KC_U,    KC_I,    KC_O,   KC_P,  KC_RALT,
+      OS_CTRL,    KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                         KC_Y,    KC_U,    KC_I,    KC_O,   KC_P,  KC_RALT,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
        // KC_TAB,    KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                         KC_H,    KC_J,    KC_K,    KC_L, KC_SCLN, KC_QUOT,
        KC_TAB,    MT_A,    MT_S,    MT_D,    MT_F,    KC_G,                         KC_H,    MT_J,    MT_K,    MT_L, MT_SCLN, KC_QUOT,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      XXXXXXX,    KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                         KC_N,    KC_M, KC_COMM,  KC_DOT, KC_SLSH, XXXXXXX,
+      OS_SHFT,    KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                         KC_N,    KC_M, KC_COMM,  KC_DOT, KC_SLSH, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                          OS_LSFT,  KC_SPC, LYR_NUM,    LYR_SNM, KC_BSPC, KC_ENT
+                                          OS_LSFT,  KC_SPC, LA_NUM,    LA_SNM, KC_BSPC, KC_ENT
                                       //`--------------------------'  `--------------------------'
 
   ),
 
+  // here is a Test Of My Super Cool UKJKJJJLLL::jjjjkk
+  // Does This Work Pretty Good? I think I like it. YyyyyyyYyyyYYYyyyUiyiyfiiiIiiIiHOoOHOoHO
+
   [_NUM] = LAYOUT_split_3x6_3(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-       KC_TAB, OS_LALT, OS_LGUI, OS_LCTL, OS_LSFT, XXXXXXX,                      KC_LEFT, KC_DOWN,   KC_UP, KC_RGHT, XXXXXXX, KC_RALT,
+      OS_SHFT, OS_LALT, OS_LGUI, OS_LCTL, OS_LSFT, XXXXXXX,                      KC_LEFT, KC_DOWN,   KC_UP, KC_RGHT, XXXXXXX, KC_RALT,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       // KC_LCTL, OS_LSFT, OS_LALT, OS_LGUI, OS_LCTL,    KC_5,                         KC_6,    KC_7,    KC_8,    KC_9,    KC_0,  KC_ESC,
-      KC_LCTL,    KC_1,    KC_2,    KC_3,    KC_4,    KC_5,                         KC_6,    KC_7,    KC_8,    KC_9,    KC_0,  KC_ESC,
+      XXXXXXX,  OS_ALT,  OS_CMD, OS_CTRL, OS_SHFT,    KC_5,                         KC_6,    KC_7,    KC_8,    KC_9,    KC_0,  KC_ESC,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      XXXXXXX, XXXXXXX, KC_MPRV, KC_MPLY, KC_MNXT, XXXXXXX,                      XXXXXXX, KC_PGDN, KC_PGUP, KC_VOLD, KC_VOLU, XXXXXXX,
+      KC_LCTL,    KC_1,    KC_2,    KC_3,    KC_4,    KC_5,                         KC_6,    KC_7,    KC_8,    KC_9,    KC_0,  KC_ESC,
+      // XXXXXXX, XXXXXXX, KC_MPRV, KC_MPLY, KC_MNXT, OS_SHFT,                      XXXXXXX, KC_PGDN, KC_PGUP, KC_VOLD, KC_VOLU, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                          OS_LSFT,  KC_SPC, _______,    LYR_SYM,  KC_DEL, KC_ENT
+                                          OS_LSFT,  KC_SPC, _______,    LA_SYM,  KC_DEL, KC_ENT
                                       //`--------------------------'  `--------------------------'
   ),
 
   [_SNM] = LAYOUT_split_3x6_3(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-       KC_TAB, OS_LALT, OS_LGUI, OS_LCTL, OS_LSFT, XXXXXXX,                      XXXXXXX, OS_LALT, OS_LGUI, OS_LCTL, OS_LSFT,  KC_DEL,
+      OS_SHFT, OS_LALT, OS_LGUI, OS_LCTL, OS_LSFT, XXXXXXX,                      XXXXXXX, OS_LALT, OS_LGUI, OS_LCTL, OS_LSFT,  KC_DEL,
        // KC_TAB, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,  KC_DEL,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       KC_LCTL, KC_EXLM,   KC_AT, KC_HASH,  KC_DLR, KC_PERC,                      KC_CIRC, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN,  KC_GRV,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, KC_LCBR, KC_RCBR, KC_TILD,
+      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, OS_SHFT,                      XXXXXXX, XXXXXXX, XXXXXXX, KC_LCBR, KC_RCBR, KC_TILD,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                          OS_LSFT,  KC_SPC, LYR_SYM,    _______, KC_BSPC, KC_ENT
+                                          OS_LSFT,  KC_SPC, LA_SYM,    _______, KC_BSPC, KC_ENT
                                       //`--------------------------'  `--------------------------'
   ),
 
@@ -112,7 +134,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
         KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,                        KC_F7,   KC_F8,   KC_F9,  KC_F10,  KC_F11,  KC_F12,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      KC_LCTL, KC_BSLS, KC_MINS,  KC_EQL, KC_PLUS, XXXXXXX,                     LYR_GAME, KC_PIPE, KC_UNDS, KC_LBRC, KC_RBRC,  KC_ESC,
+      KC_LCTL, KC_BSLS, KC_MINS,  KC_EQL, KC_PLUS, XXXXXXX,                     LA_GAME, KC_PIPE, KC_UNDS, KC_LBRC, KC_RBRC,  KC_ESC,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       XXXXXXX, RGB_MOD, RGB_HUD, RGB_SAD, RGB_VAD, XXXXXXX,                      XXXXXXX, RGB_TOG, RGB_HUI, RGB_SAI, RGB_VAI, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
@@ -122,17 +144,83 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
   [_GAME] = LAYOUT_split_3x6_3(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-       KC_TAB,    KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                         KC_Y,    KC_U,    KC_I,    KC_O,   KC_P, LYR_GAME,
+       KC_TAB,    KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                         KC_Y,    KC_U,    KC_I,    KC_O,   KC_P, LA_GAME,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       KC_LCTL,    KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                         KC_H,    KC_J,    KC_K,    KC_L, KC_SCLN, KC_QUOT,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       XXXXXXX,    KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                         KC_N,    KC_M, KC_COMM,  KC_DOT, KC_SLSH, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                          OS_LSFT,  KC_SPC, LYR_NUM,    LYR_SNM, KC_BSPC, KC_ENT
+                                          OS_LSFT,  KC_SPC, LA_NUM,    LA_SNM, KC_BSPC, KC_ENT
                                       //`--------------------------'  `--------------------------'
   ),
 };
 
+// TODO: update is_oneshot_cancel_key
+bool is_oneshot_cancel_key(uint16_t keycode) {
+    switch (keycode) {
+    // case KC_Q:
+    // TODO: update these!
+    // case LA_:
+    case LA_SYM:
+    case LA_SNM:
+    case LA_NUM:
+        return true;
+    default:
+        return false;
+    }
+}
+
+// TODO: update is_oneshot_ignored_key
+bool is_oneshot_ignored_key(uint16_t keycode) {
+    switch (keycode) {
+    // case LA_NAV:
+    // case KC_LSFT:
+    // case LYR_NUM:
+    case LA_SYM:
+    case LA_SNM:
+    case LA_NUM:
+    case OS_SHFT:
+    case OS_CTRL:
+    case OS_ALT:
+    case OS_CMD:
+        return true;
+    default:
+        return false;
+    }
+}
+
+oneshot_state os_shft_state = os_up_unqueued;
+oneshot_state os_ctrl_state = os_up_unqueued;
+oneshot_state os_alt_state = os_up_unqueued;
+oneshot_state os_cmd_state = os_up_unqueued;
+
+bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+    update_oneshot(
+        &os_shft_state, KC_LSFT, OS_SHFT,
+        keycode, record
+    );
+    update_oneshot(
+        &os_ctrl_state, KC_LCTL, OS_CTRL,
+        keycode, record
+    );
+    update_oneshot(
+        &os_alt_state, KC_LALT, OS_ALT,
+        keycode, record
+    );
+    update_oneshot(
+        &os_cmd_state, KC_LCMD, OS_CMD,
+        keycode, record
+    );
+
+    return true;
+}
+
+// fancy way to say when num and snm layer are pressed, so now is tye sym layer
+// layer_state_t layer_state_set_user(layer_state_t state) {
+//     return update_tri_layer_state(state, _NUM, _SNM, _SYM);
+// }
+
+/* OLD BELOW */
 #ifdef OLED_DRIVER_ENABLE
 oled_rotation_t oled_init_user(oled_rotation_t rotation) {
   if (!is_keyboard_master()) {
