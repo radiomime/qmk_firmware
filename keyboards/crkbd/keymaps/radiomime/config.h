@@ -38,6 +38,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define ONESHOT_TIMEOUT 60000  /* Time (in ms) before the one shot key is released */
 
 
+// -----< combo count >----- //
+#define COMBO_TERM 40
+#define COMBO_COUNT 1
+
 // -----< home row mods >----- //
 
 // Configure the global tapping term (default: 200ms)
