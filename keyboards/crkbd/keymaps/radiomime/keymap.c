@@ -101,7 +101,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   ),
 
   // here is a Test Of My Super Cool UKJKJJJLLL::jjjjkk
-  // Does This Work Pretty Good? I think I like it. YyyyyyyYyyyYYYyyyUiyiyfiiiIiiIiHOoOHOoHO
+  // Does This Work Pretty Good? I think I like it. YyyyyyyYyyyYYYyyyUiyiyfiiiIiiIiHOoOH{}here Here I Am Typing⇧OoHO
+
+  /*
+  How things were.
+  */
+
+  // QwertQWERtQwertPoiupoiuPoiupoiuPoiupoiuPOIUpoiu
+
 
   [_NUM] = LAYOUT_split_3x6_3(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
@@ -119,12 +126,12 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
   [_SNM] = LAYOUT_split_3x6_3(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-      OS_SHFT, OS_LALT, OS_LGUI, OS_LCTL, OS_LSFT, XXXXXXX,                      XXXXXXX, OS_LALT, OS_LGUI, OS_LCTL, OS_LSFT,  KC_DEL,
+      OS_SHFT, OS_LALT, OS_LGUI, OS_LCTL, OS_LSFT, KC_LCBR,                      KC_RCBR, OS_LALT, OS_LGUI, OS_LCTL, OS_LSFT,  KC_DEL,
        // KC_TAB, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,  KC_DEL,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      KC_LCTL, KC_EXLM,   KC_AT, KC_HASH,  KC_DLR, KC_PERC,                      KC_CIRC, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN,  KC_GRV,
+      KC_LCTL, KC_EXLM,   KC_AT, KC_HASH,  KC_DLR, KC_PERC,                      KC_CIRC, OS_LSFT, OS_LCTL, OS_LGUI, OS_LALT,  KC_GRV,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, OS_SHFT,                      XXXXXXX, XXXXXXX, XXXXXXX, KC_LCBR, KC_RCBR, KC_TILD,
+      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, OS_SHFT,                      XXXXXXX, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN, KC_TILD,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
                                           OS_LSFT,  KC_SPC, LA_SYM,    _______, KC_BSPC, KC_ENT
                                       //`--------------------------'  `--------------------------'
@@ -214,6 +221,27 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
     return true;
 }
+
+// bool post_process_record_user(uint16_t keycode, keyrecord_t *record) {
+//     update_oneshot(
+//         &os_shft_state, KC_LSFT, OS_SHFT,
+//         keycode, record
+//     );
+//     update_oneshot(
+//         &os_ctrl_state, KC_LCTL, OS_CTRL,
+//         keycode, record
+//     );
+//     update_oneshot(
+//         &os_alt_state, KC_LALT, OS_ALT,
+//         keycode, record
+//     );
+//     update_oneshot(
+//         &os_cmd_state, KC_LCMD, OS_CMD,
+//         keycode, record
+//     );
+//
+//     return true;
+// }
 
 // fancy way to say when num and snm layer are pressed, so now is tye sym layer
 // layer_state_t layer_state_set_user(layer_state_t state) {
