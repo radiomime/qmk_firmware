@@ -43,6 +43,9 @@ LAYOUTS = split_3x5_3 split_3x6_3
 
 DEFAULT_FOLDER = crkbd/rev1
 
+# allow combos
+COMBO_ENABLE = yes
+
 
 # add sources
 SRC += oneshot.c
