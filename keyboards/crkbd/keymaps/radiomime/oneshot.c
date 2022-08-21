@@ -15,6 +15,10 @@
  */
 #include "oneshot.h"
 
+// TODO: add good links to my readme
+// TODO: try sending mod? Could I tripple tap for caps lock? I could also add a counter to the enum for this.
+// TODO: get oleds working
+// TODO: documentation?
 // https://github.com/qmk/qmk_firmware/blob/master/docs/custom_quantum_functions.md#programming-the-behavior-of-any-keycode-idprogramming-the-behavior-of-any-keycode
 void update_oneshot(oneshot_state *state,   // oneshot key state (enum defined in oneshot.h)
                     uint16_t       mod,     // modifier to press (eg, kc_lsft)
@@ -49,45 +53,44 @@ void update_oneshot(oneshot_state *state,   // oneshot key state (enum defined i
             }
         }
     } else {
-        // keycode pressed is not the oneshot key
         if (record->event.pressed) {
             if (is_oneshot_cancel_key(keycode) && *state != os_up_unqueued) {
                 // Cancel oneshot on designated cancel keydown.
                 *state = os_up_unqueued;
                 unregister_code(mod);
             }
-            // Here iijasdf
-            // if (!is_oneshot_ignored_key(keycode)) {
-            //     // // On non-ignored keyup, consider the oneshot used.
-            //     // On non-ignored down, consider the oneshot used.
-            //     switch (*state) {
-            //         case os_down_unused:
-            //             *state = os_down_used;
-            //             break;
-            //         case os_up_queued:
-            //             *state = os_up_unqueued;
-            //             unregister_code(mod);
-            //             break;
-            //         default:
-            //             break;
-            //     }
-            // }
+            if (!is_oneshot_ignored_key(keycode)) {
+                switch (*state) {
+                    case os_up_queued:
+                        *state = os_up_queued_used;
+                        break;
+                    case os_up_queued_used:
+                        *state = os_up_unqueued;
+                        unregister_code(mod);
+                        break;
+                    default:
+                        break;
+                }
+            }
+        } else {
+            if (!is_oneshot_ignored_key(keycode)) {
+                // On non-ignored keyup, consider the oneshot used.
+                switch (*state) {
+                    case os_down_unused:
+                        *state = os_down_used;
+                        break;
+                    case os_up_queued:
+                        *state = os_up_unqueued;
+                        unregister_code(mod);
+                        break;
+                    case os_up_queued_used:
+                        *state = os_up_unqueued;
+                        unregister_code(mod);
+                        break;
+                    default:
+                        break;
+                }
+            }
         }
-  // else {
-  //           if (!is_oneshot_ignored_key(keycode)) {
-  //               // On non-ignored keyup, consider the oneshot used.
-  //               switch (*state) {
-  //                   case os_down_unused:
-  //                       *state = os_down_used;
-  //                       break;
-  //                   case os_up_queued:
-  //                       *state = os_up_unqueued;
-  //                       unregister_code(mod);
-  //                       break;
-  //                   default:
-  //                       break;
-  //               }
-  //           }
-  //       }
     }
 }
