@@ -109,13 +109,17 @@ combo_t key_combos[COMBO_COUNT] = {
 
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
+  /*
+  I feel pretty good about the qwerty layer. there are some unused keys on my home row, but I'm nearly curious at this point
+  if I should try to stop using the edge keys. I'm pretty fast, but I don't know a good spot for quote, etc
+  */
   [_QWERTY] = LAYOUT_split_3x6_3(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-      XXXXXXX,    KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                         KC_Y,    KC_U,    KC_I,    KC_O,   KC_P,  KC_RALT,
+      XXXXXXX,    KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                         KC_Y,    KC_U,    KC_I,    KC_O,   KC_P,  XXXXXXX,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
        KC_TAB,    KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                         KC_H,    KC_J,    KC_K,    KC_L, KC_SCLN, KC_QUOT,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      OS_SHFT,    KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                         KC_N,    KC_M, KC_COMM,  KC_DOT, KC_SLSH, XXXXXXX,
+      XXXXXXX,    KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                         KC_N,    KC_M, KC_COMM,  KC_DOT, KC_SLSH, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
                                           OS_LSFT,  KC_SPC, LA_NUM,    LA_SNM, KC_BSPC, KC_ENT
                                       //`--------------------------'  `--------------------------'
@@ -126,7 +130,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
       XXXXXXX,    KC_1,    KC_2,    KC_3,    KC_4,    KC_5,                         KC_6,    KC_7,    KC_8,    KC_9,    KC_0, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-       KC_TAB,  OS_ALT,  OS_CMD, OS_CTRL, OS_SHFT, XXXXXXX,                      KC_LEFT, KC_DOWN,   KC_UP, KC_RGHT, XXXXXXX,  KC_ESC,
+       KC_TAB,  OS_ALT,  OS_CMD, OS_CTRL, OS_SHFT, XXXXXXX,                      KC_LEFT, KC_DOWN,   KC_UP, KC_RGHT,  KC_TAB, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       XXXXXXX, XXXXXXX, KC_MPRV, KC_MPLY, KC_MNXT, XXXXXXX,                      XXXXXXX, KC_PGDN, KC_PGUP, KC_VOLD, KC_VOLU, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
@@ -150,14 +154,17 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
         KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,                        KC_F7,   KC_F8,   KC_F9,  KC_F10,  KC_F11,  KC_F12,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      KC_LCTL, KC_BSLS, KC_MINS,  KC_EQL, KC_PLUS, XXXXXXX,                     LA_GAME, KC_PIPE, KC_UNDS, KC_LBRC, KC_RBRC,  KC_ESC,
+      KC_LCTL, KC_BSLS, KC_MINS,  KC_EQL, KC_PLUS, XXXXXXX,                      XXXXXXX, KC_PIPE, KC_UNDS, KC_LBRC, KC_RBRC,  KC_ESC,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      XXXXXXX, RGB_MOD, RGB_HUD, RGB_SAD, RGB_VAD, XXXXXXX,                      XXXXXXX, RGB_TOG, RGB_HUI, RGB_SAI, RGB_VAI, XXXXXXX,
+      XXXXXXX, RGB_MOD, RGB_HUD, RGB_SAD, RGB_VAD, XXXXXXX,                      XXXXXXX, RGB_TOG, RGB_HUI, RGB_SAI, RGB_VAI, LA_GAME,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
                                           OS_LSFT,  KC_SPC, _______,    _______, KC_BSPC, KC_ENT
                                       //`--------------------------'  `--------------------------'
   ),
 
+  /*
+  * gaming layer could be better. it could also have a numpad layer below it or something, tons of games have a numpad fn
+  */
   [_GAME] = LAYOUT_split_3x6_3(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
        KC_TAB,    KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                         KC_Y,    KC_U,    KC_I,    KC_O,   KC_P, LA_GAME,
@@ -229,33 +236,12 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     return true;
 }
 
-// bool post_process_record_user(uint16_t keycode, keyrecord_t *record) {
-//     update_oneshot(
-//         &os_shft_state, KC_LSFT, OS_SHFT,
-//         keycode, record
-//     );
-//     update_oneshot(
-//         &os_ctrl_state, KC_LCTL, OS_CTRL,
-//         keycode, record
-//     );
-//     update_oneshot(
-//         &os_alt_state, KC_LALT, OS_ALT,
-//         keycode, record
-//     );
-//     update_oneshot(
-//         &os_cmd_state, KC_LCMD, OS_CMD,
-//         keycode, record
-//     );
-//
-//     return true;
-// }
-
 // fancy way to say when num and snm layer are pressed, so now is tye sym layer
 // layer_state_t layer_state_set_user(layer_state_t state) {
 //     return update_tri_layer_state(state, _NUM, _SNM, _SYM);
 // }
 
-/* OLD BELOW */
+/* OLED BELOW */
 #ifdef OLED_DRIVER_ENABLE
 oled_rotation_t oled_init_user(oled_rotation_t rotation) {
   if (!is_keyboard_master()) {
