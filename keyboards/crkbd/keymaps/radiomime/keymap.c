@@ -28,7 +28,7 @@ enum layers {
   _QWERTY,
   _NUM,
   _SNM,
-  _SYM,
+  _FUN,
   _GAME
 
     // _NAV,
@@ -40,125 +40,102 @@ enum layers {
     // _ALWAYS
 };
 
+#define LA_NUM MO(_NUM)
+#define LA_SNM MO(_SNM)
+#define LA_FUN MO(_FUN)
+#define LA_GAME TG(_GAME)
+
+// fancy way to say, 'when the _NUM and _SNM layers are active, make the _FUN layer active'
+layer_state_t layer_state_set_user(layer_state_t state) {
+    return update_tri_layer_state(state, _NUM, _SNM, _FUN);
+}
+
+// -----< one_shot_keys >----- //
+
 enum keycodes {
     // Custom oneshot mod implementation with no timers.
     OS_SHFT = SAFE_RANGE,
     OS_CTRL,
     OS_ALT,
-    OS_CMD,
-
-    // SW_WIN,  // Switch to next window         (cmd-tab)
-    // SW_LANG, // Switch to next input language (ctl-spc)
+    OS_GUI,
 };
 
-#define LA_NUM MO(_NUM)
-#define LA_SNM MO(_SNM)
-#define LA_SYM MO(_SYM)
-#define LA_GAME TG(_GAME)
-// #define LYR_NUM MO(_NUM)
-// #define LYR_SNM MO(_SNM)
-// #define LYR_SYM MO(_SYM)
-// #define LYR_GAME TG(_GAME)
-
-// -----< one_shot_keys >----- //
+// I use the built in osm for caps lock and an easy home-row oneshot.
 #define OS_LSFT OSM(MOD_LSFT)
-#define OS_LGUI OSM(MOD_LGUI)
-#define OS_LCTL OSM(MOD_LCTL)
-#define OS_LALT OSM(MOD_LALT)
 
 // -----< combo keys >----- //
 enum combos {
   JK_ESC,
-  // AB_ESC,
-  // JK_TAB,
-  // QW_SFT,
-  // SD_LAYER,
 };
 
 const uint16_t PROGMEM jk_combo[] = {KC_J, KC_K, COMBO_END};
-// const uint16_t PROGMEM ab_combo[] = {KC_A, KC_B, COMBO_END};
-// const uint16_t PROGMEM jk_combo[] = {KC_J, KC_K, COMBO_END};
-// const uint16_t PROGMEM qw_combo[] = {KC_Q, KC_W, COMBO_END};
-// const uint16_t PROGMEM sd_combo[] = {KC_S, KC_D, COMBO_END};
 
 combo_t key_combos[COMBO_COUNT] = {
   [JK_ESC] = COMBO(jk_combo, KC_ESC),
-
-  // [AB_ESC] = COMBO(ab_combo, KC_ESC),
-  // [JK_TAB] = COMBO(jk_combo, KC_TAB),
-//   [QW_SFT] = COMBO(qw_combo, KC_LSFT)
-//   [SD_LAYER] = COMBO(sd_combo, MO(_LAYER)),
 };
 
-// -----< mod_tap_keys >----- //
-/*
- * These are currently functioning by doing mod-tap keys. Alternatively, I could do one shot keys.
- */
 
-// Left-hand home row mods
-// #define MT_A    LALT_T(KC_A)
-// #define MT_S    LGUI_T(KC_S)
-// #define MT_D    LCTL_T(KC_D)
-// #define MT_F    LSFT_T(KC_F)
-//
-// // Right-hand home row mods
-// #define MT_J    RSFT_T(KC_J)
-// #define MT_K    RCTL_T(KC_K)
-// #define MT_L    RGUI_T(KC_L)
-// #define MT_SCLN LALT_T(KC_SCLN)
+// -----< macros >----- //
 
+#define SWP_APP LGUI(KC_TAB)
+#define SWP_WIN LGUI(KC_GRV)
 
+// -----< mod tap keys >----- //
+
+// -----< keymappings >----- //
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
-  /*
-  I feel pretty good about the qwerty layer. there are some unused keys on my home row, but I'm nearly curious at this point
-  if I should try to stop using the edge keys. I'm pretty fast, but I don't know a good spot for quote, etc
-  */
+
+  /* default layer */
   [_QWERTY] = LAYOUT_split_3x6_3(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-      XXXXXXX,    KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                         KC_Y,    KC_U,    KC_I,    KC_O,   KC_P,  XXXXXXX,
+      KC_LBRC,    KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                         KC_Y,    KC_U,    KC_I,    KC_O,   KC_P,  KC_RBRC,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
        KC_TAB,    KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                         KC_H,    KC_J,    KC_K,    KC_L, KC_SCLN, KC_QUOT,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      XXXXXXX,    KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                         KC_N,    KC_M, KC_COMM,  KC_DOT, KC_SLSH, XXXXXXX,
+      KC_LCBR,    KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                         KC_N,    KC_M, KC_COMM,  KC_DOT, KC_SLSH, KC_RCBR,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                          OS_LSFT,  KC_SPC, LA_NUM,    LA_SNM, KC_BSPC, KC_ENT
+                                          OS_LSFT,  KC_SPC,  LA_NUM,     LA_SNM, KC_BSPC, KC_ENT
                                       //`--------------------------'  `--------------------------'
 
   ),
 
+  /* left thumb layer */
   [_NUM] = LAYOUT_split_3x6_3(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
       XXXXXXX,    KC_1,    KC_2,    KC_3,    KC_4,    KC_5,                         KC_6,    KC_7,    KC_8,    KC_9,    KC_0, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-       KC_TAB,  OS_ALT,  OS_CMD, OS_CTRL, OS_SHFT, XXXXXXX,                      KC_LEFT, KC_DOWN,   KC_UP, KC_RGHT,  KC_TAB, XXXXXXX,
+      _______,  OS_ALT,  OS_GUI, OS_CTRL, OS_SHFT, SWP_APP,                      KC_LEFT, KC_DOWN,   KC_UP, KC_RGHT,  KC_TAB, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      XXXXXXX, XXXXXXX, KC_MPRV, KC_MPLY, KC_MNXT, XXXXXXX,                      XXXXXXX, KC_PGDN, KC_PGUP, KC_VOLD, KC_VOLU, XXXXXXX,
+      XXXXXXX, KC_VOLD, KC_MPRV, KC_MPLY, KC_MNXT, KC_VOLU,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                          OS_LSFT,  KC_SPC, _______,    LA_SYM,  KC_DEL, KC_ENT
+                                          _______, _______, _______,    _______,  KC_DEL, _______
                                       //`--------------------------'  `--------------------------'
   ),
 
+  /* right thumb layer */
   [_SNM] = LAYOUT_split_3x6_3(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
       XXXXXXX, KC_EXLM,   KC_AT, KC_HASH,  KC_DLR, KC_PERC,                      KC_CIRC, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-       KC_TAB, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, OS_SHFT, OS_CTRL,  OS_CMD,  OS_ALT,  KC_GRV,
+      _______, KC_BSLS, KC_MINS,  KC_EQL, KC_PLUS, KC_TILD,                      SWP_WIN, OS_SHFT, OS_CTRL,  OS_GUI,  OS_ALT,  KC_GRV,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_TILD,
+      XXXXXXX, KC_PIPE, KC_UNDS, KC_LBRC, KC_RBRC, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                          OS_LSFT,  KC_SPC, LA_SYM,    _______, KC_BSPC, KC_ENT
+                                          _______, _______, _______,    _______, KC_BSPC, _______
                                       //`--------------------------'  `--------------------------'
   ),
 
-  [_SYM] = LAYOUT_split_3x6_3(
+  /* both thumbs layer */
+  // TODO: home row is free here, more or less. I could put one shot mods here, or fill with other things
+  [_FUN] = LAYOUT_split_3x6_3(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
         KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,                        KC_F7,   KC_F8,   KC_F9,  KC_F10,  KC_F11,  KC_F12,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      KC_LCTL, KC_BSLS, KC_MINS,  KC_EQL, KC_PLUS, XXXXXXX,                      XXXXXXX, KC_PIPE, KC_UNDS, KC_LBRC, KC_RBRC,  KC_ESC,
+      _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, KC_PGDN, KC_PGUP, XXXXXXX, XXXXXXX, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       XXXXXXX, RGB_MOD, RGB_HUD, RGB_SAD, RGB_VAD, XXXXXXX,                      XXXXXXX, RGB_TOG, RGB_HUI, RGB_SAI, RGB_VAI, LA_GAME,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                          OS_LSFT,  KC_SPC, _______,    _______, KC_BSPC, KC_ENT
+                                          _______, _______, _______,    _______, KC_BSPC, _______
                                       //`--------------------------'  `--------------------------'
   ),
 
@@ -167,21 +144,22 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   */
   [_GAME] = LAYOUT_split_3x6_3(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-       KC_TAB,    KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                         KC_Y,    KC_U,    KC_I,    KC_O,   KC_P, LA_GAME,
+       KC_TAB,    KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                         KC_Y,    KC_U,    KC_I,    KC_O,   KC_P,  LA_GAME,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       KC_LCTL,    KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                         KC_H,    KC_J,    KC_K,    KC_L, KC_SCLN, KC_QUOT,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       KC_LSFT,    KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                         KC_N,    KC_M, KC_COMM,  KC_DOT, KC_SLSH, LA_GAME,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                          OS_LSFT,  KC_SPC, LA_NUM,    LA_SNM, KC_BSPC, KC_ENT
+                                          _______, _______,  LA_NUM,     LA_SNM, KC_BSPC, _______
                                       //`--------------------------'  `--------------------------'
   ),
 };
 
-// TODO: update is_oneshot_cancel_key
+// -----< oneshot >----- //
+
 bool is_oneshot_cancel_key(uint16_t keycode) {
     switch (keycode) {
-    case LA_SYM:
+    case LA_FUN:
     case LA_SNM:
     case LA_NUM:
         return true;
@@ -193,16 +171,13 @@ bool is_oneshot_cancel_key(uint16_t keycode) {
 // TODO: update is_oneshot_ignored_key
 bool is_oneshot_ignored_key(uint16_t keycode) {
     switch (keycode) {
-    // case LA_NAV:
-    // case KC_LSFT:
-    // case LYR_NUM:
-    case LA_SYM:
+    case LA_FUN:
     case LA_SNM:
     case LA_NUM:
     case OS_SHFT:
     case OS_CTRL:
     case OS_ALT:
-    case OS_CMD:
+    case OS_GUI:
         return true;
     default:
         return false;
@@ -213,7 +188,7 @@ bool is_oneshot_ignored_key(uint16_t keycode) {
 oneshot_state os_shft_state = os_up_unqueued;
 oneshot_state os_ctrl_state = os_up_unqueued;
 oneshot_state os_alt_state = os_up_unqueued;
-oneshot_state os_cmd_state = os_up_unqueued;
+oneshot_state os_gui_state = os_up_unqueued;
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     update_oneshot(
@@ -229,19 +204,15 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         keycode, record
     );
     update_oneshot(
-        &os_cmd_state, KC_LCMD, OS_CMD,
+        &os_gui_state, KC_LCMD, OS_GUI,
         keycode, record
     );
 
     return true;
 }
 
-// fancy way to say when num and snm layer are pressed, so now is tye sym layer
-// layer_state_t layer_state_set_user(layer_state_t state) {
-//     return update_tri_layer_state(state, _NUM, _SNM, _SYM);
-// }
-
 /* OLED BELOW */
+// TODO: fix implementation
 #ifdef OLED_DRIVER_ENABLE
 oled_rotation_t oled_init_user(oled_rotation_t rotation) {
   if (!is_keyboard_master()) {
