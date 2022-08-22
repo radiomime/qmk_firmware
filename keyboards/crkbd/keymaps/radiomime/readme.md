@@ -12,3 +12,5 @@
     #define MT_SPC    MT(<layer>,KC_SPC)
     ```
 -   change leds with different layers? https://github.com/qmk/qmk_firmware/issues/2862
+-   more key combos for things? I've seen ab, jk, qw, fj, and sd used for things like shift, tab, and a layer
+-   [should space be a one shot layer?](https://github.com/qmk/qmk_firmware/blob/master/docs/feature_layers.md#switching-and-toggling-layers)
