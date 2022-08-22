@@ -1,7 +1,3 @@
-OLED_DRIVER_ENABLE  = yes
-# OLED_DRIVER = SSD1306 # Selects the right driver
-# OLED_ENABLE = yes     # Enables the use of OLED displays
-
 # MCU name
 MCU = atmega32u4
 
@@ -49,6 +45,13 @@ COMBO_ENABLE = yes
 
 # add sources
 SRC += oneshot.c
+
+# oled
+OLED_ENABLE     = yes
+OLED_DRIVER     = SSD1306
+# OLED_DRIVER_ENABLE  = yes
+# OLED_DRIVER = SSD1306 # Selects the right driver
+# OLED_ENABLE = yes     # Enables the use of OLED displays
 
 # SRC += callum.c
 # SRC += oneshot.c
