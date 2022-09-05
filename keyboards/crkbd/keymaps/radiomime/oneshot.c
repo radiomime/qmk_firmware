@@ -24,7 +24,7 @@ void update_oneshot(oneshot_state *state,   // oneshot key state (enum defined i
                     uint16_t       mod,     // modifier to press (eg, kc_lsft)
                     uint16_t       trigger, // keycode that triggers mod
                     uint16_t       keycode, // keycode registered (pressed or released by user)
-                    keyrecord_t   *record  // action taken
+                    keyrecord_t   *record   // action taken
 ) {
     if (keycode == trigger) {
         // keycode pressed is the oneshot key
