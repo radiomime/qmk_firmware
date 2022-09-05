@@ -64,6 +64,8 @@ enum keycodes {
 #define OS_LSFT OSM(MOD_LSFT)
 
 // -----< combo keys >----- //
+
+// (j + k) --> escape
 enum combos {
   JK_ESC,
 };
