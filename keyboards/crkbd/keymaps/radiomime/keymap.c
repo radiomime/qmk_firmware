@@ -21,6 +21,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
 #include "oneshot.h"
+#include "swapper.h"
 
 // -----< layers >----- //
 enum layers {
@@ -58,6 +59,9 @@ enum keycodes {
     OS_CTRL,
     OS_ALT,
     OS_GUI,
+
+    SWP_APP,  // Switch to next app          (cmd-tab)
+    SWP_WIN, // Switch to next app window   (cmd-tick)
 };
 
 // I use the built in osm for caps lock and an easy home-row oneshot.
@@ -79,8 +83,8 @@ combo_t key_combos[COMBO_COUNT] = {
 
 // -----< macros >----- //
 
-#define SWP_APP LGUI(KC_TAB)
-#define SWP_WIN LGUI(KC_GRV)
+// #define SWP_APP LGUI(KC_TAB)
+// #define SWP_WIN LGUI(KC_GRV)
 
 // -----< mod tap keys >----- //
 
@@ -302,7 +306,19 @@ bool oled_task_user(void) {
 // }
 #endif // OLED_ENABLE
 
+bool swp_app_active = false;
+bool swp_win_active = false;
+
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+    update_swapper(
+        &swp_app_active, KC_LGUI, KC_TAB, SWP_APP,
+        keycode, record
+    );
+    update_swapper(
+        &swp_win_active, KC_LGUI, KC_GRV, SWP_WIN,
+        keycode, record
+    );
+
     update_oneshot(
         &os_shft_state, KC_LSFT, OS_SHFT,
         keycode, record

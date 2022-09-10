@@ -45,6 +45,7 @@ COMBO_ENABLE = yes
 
 # add sources
 SRC += oneshot.c
+SRC += swapper.c
 
 # oled
 OLED_ENABLE     = yes
