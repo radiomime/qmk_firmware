@@ -30,7 +30,8 @@ enum layers {
   _NUM,
   _SNM,
   _FUN,
-  _GAME
+  _GAME,
+  _PAD,
 
     // _NAV,
     // _RSYM,
@@ -72,12 +73,15 @@ enum keycodes {
 // (j + k) --> escape
 enum combos {
   JK_ESC,
+  PAD_LAYER,
 };
 
 const uint16_t PROGMEM jk_combo[] = {KC_J, KC_K, COMBO_END};
+const uint16_t PROGMEM pad_combo[] = {KC_H, KC_J, COMBO_END};
 
 combo_t key_combos[COMBO_COUNT] = {
   [JK_ESC] = COMBO(jk_combo, KC_ESC),
+  [PAD_LAYER] = COMBO(pad_combo, MO(_PAD)),
 };
 
 
@@ -124,7 +128,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       _______, KC_MINS,  KC_EQL, KC_PLUS, KC_PIPE, KC_TILD,                      SWP_WIN, OS_SHFT, OS_CTRL,  OS_GUI,  OS_ALT,  KC_GRV,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      XXXXXXX, KC_LBRC, KC_RBRC, XXXXXXX, KC_UNDS, XXXXXXX,                      XXXXXXX, KC_CAPS, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+      XXXXXXX, KC_LBRC, KC_RBRC, XXXXXXX, KC_UNDS, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
                                           _______, _______, _______,    _______, KC_BSPC, _______
                                       //`--------------------------'  `--------------------------'
@@ -141,6 +145,18 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       XXXXXXX, RGB_MOD, RGB_HUD, RGB_SAD, RGB_VAD, XXXXXXX,                      XXXXXXX, RGB_TOG, RGB_HUI, RGB_SAI, RGB_VAI, LA_GAME,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
                                           _______, _______, _______,    _______, KC_BSPC, _______
+                                      //`--------------------------'  `--------------------------'
+  ),
+
+  [_PAD] = LAYOUT_split_3x6_3(
+  //,-----------------------------------------------------.                    ,-----------------------------------------------------.
+      XXXXXXX, XXXXXXX,    KC_7,    KC_8,    KC_9, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
+      _______,    KC_0,    KC_4,    KC_5,    KC_6, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
+      XXXXXXX, XXXXXXX,    KC_1,    KC_2,    KC_3, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+  //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
+                                          _______, _______, _______,    _______, _______, _______
                                       //`--------------------------'  `--------------------------'
   ),
 
@@ -164,9 +180,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 bool is_oneshot_cancel_key(uint16_t keycode) {
     switch (keycode) {
-    case LA_FUN:
-    case LA_SNM:
-    case LA_NUM:
+    // case LA_FUN:
+    // case LA_SNM:
+    // case LA_NUM:
+    case KC_ESC: // this might mess up command + option + escape on Mac
         return true;
     default:
         return false;
