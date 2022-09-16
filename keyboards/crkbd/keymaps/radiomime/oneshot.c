@@ -27,22 +27,40 @@ void update_oneshot(oneshot_state *state,   // oneshot key state (enum defined i
                     keyrecord_t   *record   // action taken
 ) {
     if (keycode == trigger) {
-        // keycode pressed is the oneshot key
         if (record->event.pressed) {
-            // on keydown action
-            // Trigger keydown
-            if (*state == os_up_unqueued) {
-                register_code(mod);
+            // oneshot key -> keydown
+            // if (*state == os_up_unqueued) {
+            //     // register keydown event for mod
+            //     register_code(mod);
+            // }
+            switch (*state) {
+                // case os_down_locked:
+                case os_up_unqueued:
+                    // register keydown event for mod
+                    *state = os_down_unused;
+                    register_code(mod);
+                    break;
+                case os_up_queued:
+                    *state = os_down_locked;
+                    break;
+                case os_down_locked:
+                    // unlock it
+                    *state = os_up_unqueued;
+                    unregister_code(mod);
+                    break;
+                default:
+                    *state = os_down_unused;
+                    break;
             }
-            *state = os_down_unused;
+            // *state = os_down_unused;
         } else {
-            // on keyup action
-            // Trigger keyup
+            // oneshot key -> keyup
             switch (*state) {
                 case os_down_unused:
                     // If we didn't use the mod while trigger was held, queue it.
                     *state = os_up_queued;
                     break;
+                // case os_down_locked:
                 case os_down_used:
                     // If we did use the mod while trigger was held, unregister it.
                     *state = os_up_unqueued;
