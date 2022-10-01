@@ -337,19 +337,19 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     );
 
     update_oneshot(
-        &os_shft_state, KC_LSFT, OS_SHFT,
+        &os_shft_state, KC_LSFT, OS_SHFT, true,
         keycode, record
     );
     update_oneshot(
-        &os_ctrl_state, KC_LCTL, OS_CTRL,
+        &os_ctrl_state, KC_LCTL, OS_CTRL, true,
         keycode, record
     );
     update_oneshot(
-        &os_alt_state, KC_LALT, OS_ALT,
+        &os_alt_state, KC_LALT, OS_ALT, true,
         keycode, record
     );
     update_oneshot(
-        &os_gui_state, KC_LCMD, OS_GUI,
+        &os_gui_state, KC_LCMD, OS_GUI, true,
         keycode, record
     );
 
