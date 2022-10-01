@@ -14,3 +14,4 @@
 -   change leds with different layers? https://github.com/qmk/qmk_firmware/issues/2862
 -   more key combos for things? I've seen ab, jk, qw, fj, and sd used for things like shift, tab, and a layer
 -   [should space be a one shot layer?](https://github.com/qmk/qmk_firmware/blob/master/docs/feature_layers.md#switching-and-toggling-layers)
+-   I have the 'numpad' layer set up like a phone rather than a numpad. I've used a phone way more often, and top to bottom, left to right makes the most sense to me. Swap the rows if you want to.

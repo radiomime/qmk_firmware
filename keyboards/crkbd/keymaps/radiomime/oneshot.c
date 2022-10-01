@@ -16,23 +16,17 @@
 #include "oneshot.h"
 
 // TODO: add good links to my readme
-// TODO: try sending mod? Could I tripple tap for caps lock? I could also add a counter to the enum for this.
 // TODO: get oleds working
-// TODO: documentation?
 // https://github.com/qmk/qmk_firmware/blob/master/docs/custom_quantum_functions.md#programming-the-behavior-of-any-keycode-idprogramming-the-behavior-of-any-keycode
-void update_oneshot(oneshot_state *state,   // oneshot key state (enum defined in oneshot.h)
-                    uint16_t       mod,     // modifier to press (eg, kc_lsft)
-                    uint16_t       trigger, // keycode that triggers mod
-                    uint16_t       keycode, // keycode registered (pressed or released by user)
-                    keyrecord_t   *record   // action taken
+void update_oneshot(oneshot_state *state,    // oneshot key state (enum defined in oneshot.h)
+                    uint16_t       mod,      // modifier to press (eg, kc_lsft)
+                    uint16_t       trigger,  // keycode that triggers mod
+                    bool           lockable, // can this key be locked (e.g. shift -> caps lock on two taps)
+                    uint16_t       keycode,  // keycode registered (pressed or released by user)
+                    keyrecord_t   *record    // action taken
 ) {
     if (keycode == trigger) {
         if (record->event.pressed) {
-            // oneshot key -> keydown
-            // if (*state == os_up_unqueued) {
-            //     // register keydown event for mod
-            //     register_code(mod);
-            // }
             switch (*state) {
                 // case os_down_locked:
                 case os_up_unqueued:
@@ -41,10 +35,14 @@ void update_oneshot(oneshot_state *state,   // oneshot key state (enum defined i
                     register_code(mod);
                     break;
                 case os_up_queued:
-                    *state = os_down_locked;
+                    if (lockable) {
+                        *state = os_down_locked;
+                    } else {
+                        *state = os_down_unused;
+                    }
                     break;
                 case os_down_locked:
-                    // unlock it
+                    // unlock if it is locked, unregister the mod so it doesn't fire on the following keydown
                     *state = os_up_unqueued;
                     unregister_code(mod);
                     break;
@@ -60,7 +58,6 @@ void update_oneshot(oneshot_state *state,   // oneshot key state (enum defined i
                     // If we didn't use the mod while trigger was held, queue it.
                     *state = os_up_queued;
                     break;
-                // case os_down_locked:
                 case os_down_used:
                     // If we did use the mod while trigger was held, unregister it.
                     *state = os_up_unqueued;
