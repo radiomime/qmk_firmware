@@ -76,8 +76,8 @@ enum combos {
   PAD_LAYER,
 };
 
-const uint16_t PROGMEM jk_combo[] = {KC_J, KC_K, COMBO_END};
-const uint16_t PROGMEM pad_combo[] = {KC_H, KC_J, COMBO_END};
+const uint16_t PROGMEM jk_combo[] = {KC_D, KC_F, COMBO_END}; // {KC_J, KC_K, COMBO_END};
+const uint16_t PROGMEM pad_combo[] = {KC_J, KC_K, COMBO_END}; //{KC_H, KC_J, COMBO_END};
 
 combo_t key_combos[COMBO_COUNT] = {
   [JK_ESC] = COMBO(jk_combo, KC_ESC),
@@ -130,7 +130,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       XXXXXXX, KC_LBRC, KC_RBRC, XXXXXXX, KC_UNDS, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                          _______, _______, _______,    _______, KC_BSPC, _______
+                                          _______,  KC_ENT, _______,    _______, KC_BSPC, _______
                                       //`--------------------------'  `--------------------------'
   ),
 
@@ -144,7 +144,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       XXXXXXX, RGB_MOD, RGB_HUD, RGB_SAD, RGB_VAD, XXXXXXX,                      XXXXXXX, RGB_TOG, RGB_HUI, RGB_SAI, RGB_VAI, LA_GAME,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                          _______, _______, _______,    _______, KC_BSPC, _______
+                                          _______, _______, _______,    _______, _______, _______
                                       //`--------------------------'  `--------------------------'
   ),
 
