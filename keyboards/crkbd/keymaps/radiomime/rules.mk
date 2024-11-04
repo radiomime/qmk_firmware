@@ -49,7 +49,7 @@ SRC += swapper.c
 
 # oled
 OLED_ENABLE     = yes
-OLED_DRIVER     = SSD1306
+OLED_DRIVER     = ssd1306
 # OLED_DRIVER_ENABLE  = yes
 # OLED_DRIVER = SSD1306 # Selects the right driver
 # OLED_ENABLE = yes     # Enables the use of OLED displays

@@ -5,14 +5,15 @@
 printf "Flashing Corne with radiomime's keymap\n"
 
 KEYBOARD=crkbd
-KEYMAP=radiomime
+# KEYMAP=radiomime
+KEYMAP=default
 
 # make git-submodule
 # qmk clean -a
 
 qmk compile \
     --keyboard $KEYBOARD \
-    --keymap $KEYMAP \
+    --keymap $KEYMAP
 
 qmk flash \
     --keyboard $KEYBOARD \
