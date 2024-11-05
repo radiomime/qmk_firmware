@@ -63,10 +63,15 @@ enum keycodes {
     OS_GUI,
     SWP_APP,  // Switch to next app          (cmd-tab)
     SWP_WIN, // Switch to next app window   (cmd-tick)
+    SWAPAPP, // This is the same as SWP_APP, but it's a tap-hold key
+    SWAPWIN, // This is the same as SWP_WIN, but it's a tap-hold key
 };
 
 // I use the built in osm for caps lock and an easy home-row oneshot.
-#define OS_LSFT OSM(MOD_LSFT)
+#define OSM_ALT OSM(MOD_LALT)
+#define OSM_GUI OSM(MOD_LGUI)
+#define OSM_CTL OSM(MOD_LCTL)
+#define OSM_SFT OSM(MOD_LSFT)
 
 // -----< combo keys >----- //
 
@@ -113,7 +118,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       KC_LCBR,    KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                         KC_N,    KC_M, KC_COMM,  KC_DOT, KC_SLSH, KC_RCBR,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                          OS_LSFT,  KC_SPC,  LA_NUM,     LA_SNM, KC_BSPC, KC_ENT
+                                          XXXXXXX,  KC_SPC,  LA_NUM,     LA_SNM, KC_BSPC, KC_ENT
                                       //`--------------------------'  `--------------------------'
   ),
 
@@ -122,7 +127,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
       XXXXXXX,    KC_1,    KC_2,    KC_3,    KC_4,    KC_5,                         KC_6,    KC_7,    KC_8,    KC_9,    KC_0, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      _______,  OS_ALT,  OS_GUI, OS_CTRL, OS_SHFT, SWP_APP,                      KC_LEFT, KC_DOWN,   KC_UP, KC_RGHT,  KC_TAB, XXXXXXX,
+      _______, OSM_ALT, OSM_GUI, OSM_CTL, OSM_SFT, SWAPAPP,                      KC_LEFT, KC_DOWN,   KC_UP, KC_RGHT,  KC_TAB, XXXXXXX,
+      // _______,  OS_ALT,  OS_GUI, OS_CTRL, OS_SHFT, SWAPAPP,                      KC_LEFT, KC_DOWN,   KC_UP, KC_RGHT,  KC_TAB, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       XXXXXXX, KC_VOLD, KC_MPRV, KC_MPLY, KC_MNXT, KC_VOLU,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_BSLS, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
@@ -135,7 +141,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
       XXXXXXX, KC_EXLM,   KC_AT, KC_HASH,  KC_DLR, KC_PERC,                      KC_CIRC, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      _______, KC_MINS,  KC_EQL, KC_PLUS, KC_PIPE, KC_TILD,                      SWP_WIN, OS_SHFT, OS_CTRL,  OS_GUI,  OS_ALT,  KC_GRV,
+      _______, KC_MINS,  KC_EQL, KC_PLUS, KC_PIPE, KC_TILD,                      SWAPWIN, OSM_SFT, OSM_CTL, OSM_GUI, OSM_ALT,  KC_GRV,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       XXXXXXX, KC_LBRC, KC_RBRC, XXXXXXX, KC_UNDS, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
@@ -336,15 +342,16 @@ oneshot_state os_gui_state = os_up_unqueued;
  bool swp_win_active = false;
 
  bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-     update_swapper(
-         &swp_app_active, KC_LGUI, KC_TAB, SWP_APP,
-         keycode, record
-     );
-     update_swapper(
-         &swp_win_active, KC_LGUI, KC_GRV, SWP_WIN,
-         keycode, record
-     );
 
+
+     // update_swapper(
+     //     &swp_app_active, KC_LGUI, KC_TAB, SWP_APP,
+     //     keycode, record
+     // );
+     // update_swapper(
+     //     &swp_win_active, KC_LGUI, KC_GRV, SWP_WIN,
+     //     keycode, record
+     // );
      update_oneshot(
          &os_shft_state, KC_LSFT, OS_SHFT, true,
          keycode, record
@@ -361,15 +368,31 @@ oneshot_state os_gui_state = os_up_unqueued;
          &os_gui_state, KC_LCMD, OS_GUI, true,
          keycode, record
      );
+    switch (keycode) {
+        case SWAPAPP:
+            if (record->event.pressed) {
+                register_code(KC_LGUI);
+                tap_code(KC_TAB);
+            } else {
+                unregister_code(KC_LGUI);
+            }
+
+        case SWAPWIN:
+            if (record->event.pressed) {
+                register_code(KC_LGUI);
+                tap_code(KC_GRV);
+            } else {
+                unregister_code(KC_LGUI);
+            }
+    }
 
      #ifdef OLED_ENABLE
      if (record->event.pressed) {
        set_keylog(keycode, record);
      }
-
      #endif /* OLED_ENABLE */
 
-     return true;
+     return true;// Process all other keycodes normally
  }
 
 // -----------------------------------------------------------------------------------------
