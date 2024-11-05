@@ -85,17 +85,18 @@ enum keycodes {
 // (j + k) --> escape
 enum combos {
   JK_ESC,
-  FJ_ENT,
+  // FJ_ENT,
   PAD_LAYER,
 };
 
 const uint16_t PROGMEM jk_combo[] = {KC_D, KC_F, COMBO_END}; // {KC_J, KC_K, COMBO_END};
-const uint16_t PROGMEM fj_combo[] = {KC_F, KC_J, COMBO_END}; // {KC_J, KC_K, COMBO_END};
+// const uint16_t PROGMEM fj_combo[] = {KC_F, KC_J, COMBO_END}; // {KC_J, KC_K, COMBO_END};
 const uint16_t PROGMEM pad_combo[] = {KC_J, KC_K, COMBO_END}; //{KC_H, KC_J, COMBO_END};
 
-combo_t key_combos[COMBO_COUNT] = {
+// combo_t key_combos[COMBO_COUNT] = {
+combo_t key_combos[] = {
   [JK_ESC] = COMBO(jk_combo, KC_ESC),
-  [FJ_ENT] = COMBO(fj_combo, KC_ENT),
+  // [FJ_ENT] = COMBO(fj_combo, KC_ENT),
   [PAD_LAYER] = COMBO(pad_combo, MO(_PAD)),
 };
 
